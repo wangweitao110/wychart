@@ -1,4 +1,5 @@
 import { TabBarClass } from '../models/Tab'
+import Connect from './Connect/Connect'
 
 @Entry
 @Component
@@ -57,7 +58,12 @@ struct Index {
    Tabs({ index:$$this.currentIndex }){
     ForEach(this.tabList,(item:TabBarClass)=>{
       TabContent(){
-       Text(item.title)
+        if(item.name==='connect'){
+          Connect()
+        }else {
+          Text(item.title)
+        }
+
       }
       .tabBar(this.CommonTabBar(item))
     })
