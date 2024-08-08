@@ -1,6 +1,7 @@
 
 import { UserInfoModel } from '../../models/User'
 import { weChatStore } from '../../utils/Chat_store'
+import { router, Router } from '@kit.ArkUI'
 
 
 @Component
@@ -72,6 +73,11 @@ struct Connect {
              normal:{
                .backgroundColor($r('app.color.white'))
              }
+           })
+           .onClick(()=>{
+             router.pushUrl({
+               url:'/pages/ChatDetall/ChatDetall'
+             })
            })
          })
       }
