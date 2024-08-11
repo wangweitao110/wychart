@@ -1,6 +1,9 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { WeChatStore } from '../utils/Chat_store';
+import { WeChat_CurrentUserKey } from '../constant/Index';
+import { UserInfoModel } from '../models/User';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -14,7 +17,9 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
-
+    WeChatStore.context = this.context//传入上下文
+    const user= WeChatStore.getCurrentUser()//当前用户
+    AppStorage.setOrCreate<UserInfoModel>(WeChat_CurrentUserKey,user)//设置进入全局状态
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');

@@ -1,6 +1,6 @@
 
 import { UserInfoModel } from '../../models/User'
-import { weChatStore } from '../../utils/Chat_store'
+import { WeChatStore } from '../../utils/Chat_store'
 import { router, Router } from '@kit.ArkUI'
 
 
@@ -20,7 +20,7 @@ struct Connect {
   }
 
   getUserList(){
-    this.userList= weChatStore.getWeChatConnect()
+    this.userList= WeChatStore.getWeChatConnect()
     this.updateFilterList()
   }
 
@@ -76,7 +76,8 @@ struct Connect {
            })
            .onClick(()=>{
              router.pushUrl({
-               url:'/pages/ChatDetall/ChatDetall'
+               url:'/pages/ChatDetail/ChatDetail',
+               params:item
              })
            })
          })
