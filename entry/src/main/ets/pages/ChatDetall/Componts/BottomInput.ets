@@ -1,16 +1,32 @@
 @Preview
 @Component
 struct BottomInput {
+  @State
+  showVoice:boolean = false //是否显示语音输入
   build() {
     Row({space:10}){
-      Image($r('app.media.ic_public_sound'))
+      Image(this.showVoice ? $r('app.media.ic_public_keyboard'):$r('app.media.ic_public_sound'))
         .width(25)
         .height(25)
-      TextInput()
-        .layoutWeight(1)
-        .height(35)
-        .borderRadius(2)
-        .backgroundColor($r('app.color.white'))
+        .onClick(()=>{
+          this.showVoice=!this.showVoice
+        })
+      if(this.showVoice){
+        Button("按住说话")
+          .type(ButtonType.Normal)
+          .layoutWeight(1)
+          .height(35)
+          .borderRadius(2)
+          .backgroundColor($r('app.color.white'))
+          .fontColor($r('app.color.text_primary'))
+      }else {
+        TextInput()
+          .layoutWeight(1)
+          .height(35)
+          .borderRadius(2)
+          .backgroundColor($r('app.color.white'))
+      }
+
       Image($r('app.media.ic_public_add_norm'))
         .width(25)
         .height(25)
