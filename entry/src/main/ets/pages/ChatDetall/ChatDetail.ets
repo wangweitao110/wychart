@@ -17,6 +17,7 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
   messList:MessageInfoModel[]=[]
   @State
   talkUserInputIng: boolean = false //对方正在输入
+  scroller:Scroller = new Scroller()//控制消息滚动条
   aboutToAppear(): void {
   //获取和我对话的用户信息
     this.getTalkUser()
@@ -33,6 +34,7 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
       connectUser:this.talkUser//我和小趴菜的聊天记录
     } as MessageInfo)
     this.messList.push(mess)//追加消息
+    this.scroller.scrollEdge(Edge.End)
     //发送消息到服务器，得到响应的内容
     setTimeout(()=>{
       this.getResponseMessage(content)
@@ -51,6 +53,7 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
     } as MessageInfo)
     this.messList.push(mess)
     this.talkUserInputIng = false
+    this.scroller.scrollEdge(Edge.End)
   }
   build() {
     Column(){
@@ -76,7 +79,7 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
          })
       // Text(JSON.stringify(this.talkUser))
 
-      List({space:20}){
+      List({space:20,scroller:this.scroller}){
         ForEach(this.messList,(item:MessageInfoModel)=>{
           ListItem(){
             Message({currentMessage:item})
