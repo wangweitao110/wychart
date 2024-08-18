@@ -2,6 +2,7 @@ import { router } from '@kit.ArkUI'
 import { WeChat_CurrentUserKey } from '../../constant/Index'
 import { MessageInfo, MessageInfoModel } from '../../models/Message'
 import { UserInfo, UserInfoModel } from '../../models/User'
+import { WeChatStore } from '../../utils/Chat_store'
 import { getRequestMessage } from '../../utils/Request'
 import BottomInput from './Componts/BottomInput'
 import Message from './Componts/Messgae'
@@ -22,8 +23,13 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
   //获取和我对话的用户信息
     this.getTalkUser()
   }
+  getAllRecord(){
+   this.messList = WeChatStore.getWechatMessage(this.talkUser.user_id)
+    this.scroller.scrollEdge(Edge.Bottom)
+  }
   getTalkUser(){
   this.talkUser = router.getParams() as UserInfoModel
+    this.getAllRecord()
   }
   sendTextMessage(content:string){
   //发送文本消息
@@ -34,6 +40,9 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
       connectUser:this.talkUser//我和小趴菜的聊天记录
     } as MessageInfo)
     this.messList.push(mess)//追加消息
+
+    WeChatStore.addOneWeChatMessage(this.talkUser.user_id,mess)//添加消息到我和小趴菜的聊天记录中去
+
     this.scroller.scrollEdge(Edge.End)
     //发送消息到服务器，得到响应的内容
     setTimeout(()=>{
@@ -52,6 +61,8 @@ currentUser: UserInfoModel = new UserInfoModel({} as UserInfo)//我
       connectUser:this.talkUser//我和小趴菜的聊天记录
     } as MessageInfo)
     this.messList.push(mess)
+    WeChatStore.addOneWeChatMessage(this.talkUser.user_id,mess)//添加消息到我和小趴菜的聊天记录中去
+
     this.talkUserInputIng = false
     this.scroller.scrollEdge(Edge.End)
   }
